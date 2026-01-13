@@ -393,7 +393,8 @@ export const ModelName = {
   User: 'User',
   Session: 'Session',
   Account: 'Account',
-  Verification: 'Verification'
+  Verification: 'Verification',
+  Tweet: 'Tweet'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -409,7 +410,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "session" | "account" | "verification"
+    modelProps: "user" | "session" | "account" | "verification" | "tweet"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -709,6 +710,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    Tweet: {
+      payload: Prisma.$TweetPayload<ExtArgs>
+      fields: Prisma.TweetFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.TweetFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TweetPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.TweetFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TweetPayload>
+        }
+        findFirst: {
+          args: Prisma.TweetFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TweetPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.TweetFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TweetPayload>
+        }
+        findMany: {
+          args: Prisma.TweetFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TweetPayload>[]
+        }
+        create: {
+          args: Prisma.TweetCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TweetPayload>
+        }
+        createMany: {
+          args: Prisma.TweetCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.TweetCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TweetPayload>[]
+        }
+        delete: {
+          args: Prisma.TweetDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TweetPayload>
+        }
+        update: {
+          args: Prisma.TweetUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TweetPayload>
+        }
+        deleteMany: {
+          args: Prisma.TweetDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.TweetUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.TweetUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TweetPayload>[]
+        }
+        upsert: {
+          args: Prisma.TweetUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TweetPayload>
+        }
+        aggregate: {
+          args: Prisma.TweetAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateTweet>
+        }
+        groupBy: {
+          args: Prisma.TweetGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TweetGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.TweetCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TweetCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -807,6 +882,19 @@ export const VerificationScalarFieldEnum = {
 } as const
 
 export type VerificationScalarFieldEnum = (typeof VerificationScalarFieldEnum)[keyof typeof VerificationScalarFieldEnum]
+
+
+export const TweetScalarFieldEnum = {
+  id: 'id',
+  content: 'content',
+  imageUrl: 'imageUrl',
+  authorId: 'authorId',
+  parentId: 'parentId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type TweetScalarFieldEnum = (typeof TweetScalarFieldEnum)[keyof typeof TweetScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -978,6 +1066,7 @@ export type GlobalOmitConfig = {
   session?: Prisma.SessionOmit
   account?: Prisma.AccountOmit
   verification?: Prisma.VerificationOmit
+  tweet?: Prisma.TweetOmit
 }
 
 /* Types for Logging */
