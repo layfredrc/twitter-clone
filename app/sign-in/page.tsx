@@ -9,7 +9,7 @@ import {
     CardTitle,
 } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
-import { signInWithEmail } from '@/lib/auth/auth-actions'
+import { signInWithEmail, signInWithGoogle } from '@/lib/auth/auth-actions'
 import { Chrome } from 'lucide-react'
 import Link from 'next/link'
 import { useState } from 'react'
@@ -44,6 +44,19 @@ export default function SignIn() {
         }
     }
 
+    const handleGoogleSignIn = async () => {
+        setIsLoading(true)
+        setError('')
+
+        try {
+            await signInWithGoogle()
+        } catch (err) {
+            setError('An error occured Please try again' + err)
+        } finally {
+            setIsLoading(false)
+        }
+    }
+
     return (
         <div className='min-h-screen flex items-center justify-center bg-background'>
             <Card className='w-full max-w-md'>
@@ -62,7 +75,11 @@ export default function SignIn() {
                 </CardHeader>
                 <CardContent>
                     <div className='space-y-3 mb-6'>
-                        <Button className='w-full h-12 bg-white border border-gray-300 text-black hover:bg-gray-50 cursor-pointer'>
+                        <Button
+                            onClick={handleGoogleSignIn}
+                            disabled={isLoading}
+                            className='w-full h-12 bg-white border border-gray-300 text-black hover:bg-gray-50 cursor-pointer'
+                        >
                             <Chrome className='w-5 h-5 mr-2' /> Sign in with
                             Google
                         </Button>

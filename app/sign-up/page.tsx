@@ -10,8 +10,10 @@ import {
 } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { signUpWithEmail } from '@/lib/auth/auth-actions'
+import { authClient } from '@/lib/auth/auth-client'
 import { Chrome } from 'lucide-react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
 export default function SignUp() {
@@ -25,6 +27,7 @@ export default function SignUp() {
 
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState('')
+    const router = useRouter()
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData((prev) => ({
@@ -50,7 +53,27 @@ export default function SignUp() {
                 formData.username
             )
         } catch (err) {
-            setError('An error occured, please try again')
+            setError('An error occured, please try again ' + err)
+        } finally {
+            setIsLoading(false)
+        }
+    }
+
+    const handleGoogleSignUp = async () => {
+        setIsLoading(true)
+        setError('')
+
+        try {
+            const result = await authClient.signIn.social({
+                provider: 'google',
+            })
+
+            if (!result) {
+                router.push('/')
+            }
+        } catch (err) {
+            setError('An error occured Please try again')
+            console.error(err)
         } finally {
             setIsLoading(false)
         }
@@ -73,6 +96,7 @@ export default function SignUp() {
                 <CardContent>
                     <div className='space-y-3 mb-6'>
                         <Button
+                            onClick={handleGoogleSignUp}
                             disabled={isLoading}
                             className='w-full h-12 bg-white border border-gray-300 text-black hover:bg-gray-50 cursor-pointer'
                         >
