@@ -28,8 +28,9 @@ model User {
   username      String?   @unique
   bio           String?
   avatar        String?
-  tweets  Tweet[]
-
+  tweets        Tweet[]
+  likes         Like[]
+  retweets      Retweet[]
   @@unique([email])
   @@map("user")
 }
@@ -90,9 +91,37 @@ model Tweet {
   parentId String? @map("parentId")
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
+  likes   Like[] 
+  retweets  Retweet[]
+
   author User @relation(fields: [authorId], references: [id], onDelete: Cascade)
   parent Tweet? @relation("TweetReplies", fields: [parentId], references: [id], onDelete: Cascade)
   replies Tweet[] @relation("TweetReplies")
  
   @@map("tweet")
+}
+
+model Like {
+  id String @id @default(uuid())
+  userId String @map("userId")
+  tweetId String @map("tweetId")
+  createdAt DateTime @default(now())
+
+  tweet Tweet @relation(fields: [tweetId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, tweetId])
+  @@map("likes")
+}
+model Retweet {
+  id String @id @default(uuid())
+  userId String @map("userId")
+  tweetId String @map("tweetId")
+  createdAt DateTime @default(now())
+
+  tweet Tweet @relation(fields: [tweetId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, tweetId])
+  @@map("retweets")
 }

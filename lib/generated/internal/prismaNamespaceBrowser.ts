@@ -53,7 +53,9 @@ export const ModelName = {
   Session: 'Session',
   Account: 'Account',
   Verification: 'Verification',
-  Tweet: 'Tweet'
+  Tweet: 'Tweet',
+  Like: 'Like',
+  Retweet: 'Retweet'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -144,6 +146,26 @@ export const TweetScalarFieldEnum = {
 } as const
 
 export type TweetScalarFieldEnum = (typeof TweetScalarFieldEnum)[keyof typeof TweetScalarFieldEnum]
+
+
+export const LikeScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  tweetId: 'tweetId',
+  createdAt: 'createdAt'
+} as const
+
+export type LikeScalarFieldEnum = (typeof LikeScalarFieldEnum)[keyof typeof LikeScalarFieldEnum]
+
+
+export const RetweetScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  tweetId: 'tweetId',
+  createdAt: 'createdAt'
+} as const
+
+export type RetweetScalarFieldEnum = (typeof RetweetScalarFieldEnum)[keyof typeof RetweetScalarFieldEnum]
 
 
 export const SortOrder = {

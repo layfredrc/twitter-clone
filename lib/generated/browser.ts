@@ -42,3 +42,13 @@ export type Verification = Prisma.VerificationModel
  * 
  */
 export type Tweet = Prisma.TweetModel
+/**
+ * Model Like
+ * 
+ */
+export type Like = Prisma.LikeModel
+/**
+ * Model Retweet
+ * 
+ */
+export type Retweet = Prisma.RetweetModel
