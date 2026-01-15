@@ -99,12 +99,28 @@ export default function Tweet({ tweet, currentUserId }: TweetProps) {
 
                     <div className='flex-1 space-y-2'>
                         <div className='flex items-center space-x-2'>
-                            <span className='font-semibold'>
+                            <button
+                                className='font-semibold hover:underline'
+                                onClick={(e) => {
+                                    e.stopPropagation()
+                                    router.push(
+                                        `profile/${tweet.author.username}`
+                                    )
+                                }}
+                            >
                                 {tweet.author.name}
-                            </span>
-                            <span className='text-muted-foreground'>
-                                {tweet.author.username}
-                            </span>
+                            </button>
+                            <button
+                                className='text-muted-foreground hover:underline'
+                                onClick={(e) => {
+                                    e.stopPropagation()
+                                    router.push(
+                                        `profile/${tweet.author.username}`
+                                    )
+                                }}
+                            >
+                                @{tweet.author.username}
+                            </button>
                             <span className='text-muted-foreground'>.</span>
                             <span className='text-muted-foreground'>
                                 {formatTimeAgo(tweet.createdAt)}

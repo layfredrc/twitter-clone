@@ -55,7 +55,8 @@ export const ModelName = {
   Verification: 'Verification',
   Tweet: 'Tweet',
   Like: 'Like',
-  Retweet: 'Retweet'
+  Retweet: 'Retweet',
+  Follow: 'Follow'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -166,6 +167,16 @@ export const RetweetScalarFieldEnum = {
 } as const
 
 export type RetweetScalarFieldEnum = (typeof RetweetScalarFieldEnum)[keyof typeof RetweetScalarFieldEnum]
+
+
+export const FollowScalarFieldEnum = {
+  id: 'id',
+  followingId: 'followingId',
+  followerId: 'followerId',
+  createdAt: 'createdAt'
+} as const
+
+export type FollowScalarFieldEnum = (typeof FollowScalarFieldEnum)[keyof typeof FollowScalarFieldEnum]
 
 
 export const SortOrder = {

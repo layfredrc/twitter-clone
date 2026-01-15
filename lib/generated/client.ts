@@ -79,3 +79,8 @@ export type Like = Prisma.LikeModel
  * 
  */
 export type Retweet = Prisma.RetweetModel
+/**
+ * Model Follow
+ * 
+ */
+export type Follow = Prisma.FollowModel
