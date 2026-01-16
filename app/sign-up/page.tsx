@@ -24,9 +24,9 @@ export default function SignUp() {
         password: '',
         confirmPassword: '',
     })
-
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState('')
+
     const router = useRouter()
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -38,10 +38,12 @@ export default function SignUp() {
 
     const handleSignUp = async (e: React.FormEvent) => {
         e.preventDefault()
+
         if (formData.password !== formData.confirmPassword) {
             setError("Passwords don't match")
             return
         }
+
         setIsLoading(true)
         setError('')
 
@@ -53,7 +55,7 @@ export default function SignUp() {
                 formData.username
             )
         } catch (err) {
-            setError('An error occured, please try again ' + err)
+            setError('An error occured. Please try again.')
         } finally {
             setIsLoading(false)
         }
@@ -62,18 +64,16 @@ export default function SignUp() {
     const handleGoogleSignUp = async () => {
         setIsLoading(true)
         setError('')
-
         try {
             const result = await authClient.signIn.social({
                 provider: 'google',
             })
 
-            if (!result) {
+            if (!result.error) {
                 router.push('/')
             }
         } catch (err) {
-            setError('An error occured Please try again')
-            console.error(err)
+            setError('An error occured. Please try again')
         } finally {
             setIsLoading(false)
         }
@@ -83,7 +83,7 @@ export default function SignUp() {
         <div className='min-h-screen flex items-center justify-center bg-background'>
             <Card className='w-full max-w-md'>
                 <CardHeader className='text-center'>
-                    <div className='w-12 h-12 bg-primary rounded-full flex items-center justify-center mx-auto'>
+                    <div className='w-12 h-12 bg-primary rounded-full flex items-center justify-center'>
                         <span className='text-primary-foreground font-bold text-xl'>
                             𝕏
                         </span>
@@ -93,24 +93,30 @@ export default function SignUp() {
                     </CardTitle>
                     <CardDescription>Join Twitter today</CardDescription>
                 </CardHeader>
+
                 <CardContent>
+                    {error && (
+                        <div className='p-3 text-sm text-red-600 bg-red-50 rounded-md mb-4'>
+                            {error}
+                        </div>
+                    )}
                     <div className='space-y-3 mb-6'>
                         <Button
+                            className='w-full h-12 bg-white border border-gray-300 text-black hover:bg-gray-50'
                             onClick={handleGoogleSignUp}
-                            disabled={isLoading}
-                            className='w-full h-12 bg-white border border-gray-300 text-black hover:bg-gray-50 cursor-pointer'
                         >
-                            <Chrome className='w-5 h-5 mr-2' /> Sign up with
-                            Google
+                            <Chrome className='w-5 h-5 mr-2' />
+                            Sign up with Google
                         </Button>
                     </div>
+
                     <div className='relative mb-6'>
                         <div className='absolute inset-0 flex items-center'>
-                            <span className='w-full border-t'></span>
+                            <span className='w-full border-t' />
                         </div>
                         <div className='relative flex justify-center text-xs uppercase'>
                             <span className='bg-background px-2 text-muted-foreground'>
-                                Or
+                                or
                             </span>
                         </div>
                     </div>
@@ -127,13 +133,13 @@ export default function SignUp() {
                                 Full Name
                             </label>
                             <Input
-                                name='name'
                                 id='name'
+                                name='name'
                                 type='text'
                                 placeholder='Enter your full name'
-                                required
                                 value={formData.name}
                                 onChange={handleChange}
+                                required
                             />
                         </div>
                         <div className='space-y-2'>
@@ -144,32 +150,33 @@ export default function SignUp() {
                                 Username
                             </label>
                             <Input
-                                name='username'
                                 id='username'
+                                name='username'
                                 type='text'
                                 placeholder='Choose a username'
-                                required
                                 value={formData.username}
                                 onChange={handleChange}
+                                required
                             />
                         </div>
                         <div className='space-y-2'>
                             <label
-                                htmlFor='name'
+                                htmlFor='email'
                                 className='text-sm font-medium'
                             >
                                 Email
                             </label>
                             <Input
-                                name='email'
                                 id='email'
+                                name='email'
                                 type='email'
                                 placeholder='Enter your email'
-                                required
                                 value={formData.email}
                                 onChange={handleChange}
+                                required
                             />
                         </div>
+
                         <div className='space-y-2'>
                             <label
                                 htmlFor='password'
@@ -178,13 +185,13 @@ export default function SignUp() {
                                 Password
                             </label>
                             <Input
-                                name='password'
                                 id='password'
+                                name='password'
                                 type='password'
-                                placeholder='Choose a password'
-                                required
+                                placeholder='Create a password'
                                 value={formData.password}
                                 onChange={handleChange}
+                                required
                             />
                         </div>
                         <div className='space-y-2'>
@@ -195,40 +202,39 @@ export default function SignUp() {
                                 Confirm Password
                             </label>
                             <Input
-                                name='confirmPassword'
                                 id='confirmPassword'
+                                name='confirmPassword'
                                 type='password'
-                                placeholder='Enter your full name'
-                                required
+                                placeholder='Confirm your password'
                                 value={formData.confirmPassword}
                                 onChange={handleChange}
+                                required
                             />
                         </div>
+
                         <Button
                             type='submit'
                             className='w-full h-12 bg-primary text-primary-foreground hover:bg-gray-800'
                             disabled={isLoading}
                         >
-                            Create Account
+                            {isLoading
+                                ? 'Creating Account...'
+                                : 'Create Account'}
                         </Button>
                     </form>
                     <div className='mt-6 text-center'>
                         <p className='text-sm text-muted-foreground'>
-                            Already have an account ?{' '}
+                            Already have an account?{' '}
                             <Link
-                                href='/sign-in'
+                                href={'/sign-in'}
                                 className='text-primary hover:underline'
                             >
+                                {' '}
                                 Sign in
                             </Link>
                         </p>
                     </div>
                 </CardContent>
-                {error && (
-                    <div className='text-red p-3 bg-red-50 rounded'>
-                        {error}
-                    </div>
-                )}
             </Card>
         </div>
     )

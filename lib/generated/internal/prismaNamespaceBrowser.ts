@@ -56,7 +56,8 @@ export const ModelName = {
   Tweet: 'Tweet',
   Like: 'Like',
   Retweet: 'Retweet',
-  Follow: 'Follow'
+  Follow: 'Follow',
+  Notification: 'Notification'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -177,6 +178,19 @@ export const FollowScalarFieldEnum = {
 } as const
 
 export type FollowScalarFieldEnum = (typeof FollowScalarFieldEnum)[keyof typeof FollowScalarFieldEnum]
+
+
+export const NotificationScalarFieldEnum = {
+  id: 'id',
+  type: 'type',
+  read: 'read',
+  createdAt: 'createdAt',
+  recipientId: 'recipientId',
+  actorId: 'actorId',
+  tweetId: 'tweetId'
+} as const
+
+export type NotificationScalarFieldEnum = (typeof NotificationScalarFieldEnum)[keyof typeof NotificationScalarFieldEnum]
 
 
 export const SortOrder = {

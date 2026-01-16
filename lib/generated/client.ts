@@ -84,3 +84,8 @@ export type Retweet = Prisma.RetweetModel
  * 
  */
 export type Follow = Prisma.FollowModel
+/**
+ * Model Notification
+ * 
+ */
+export type Notification = Prisma.NotificationModel

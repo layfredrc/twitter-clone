@@ -4,6 +4,7 @@ import { redirect } from 'next/navigation'
 import { getSession } from '../auth/auth-actions'
 import { prisma } from '../prisma'
 import { unstable_cache } from 'next/cache'
+import { createNotification } from './notifications'
 
 export async function getUserProfile(username: string) {
     try {
@@ -159,6 +160,8 @@ export async function followUser(userId: string) {
                     followingId: session.user.id,
                 },
             })
+
+            await createNotification('FOLLOW', userId, session.user.id)
             return { success: true, action: 'followed' }
         }
     } catch (err) {

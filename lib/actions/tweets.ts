@@ -3,6 +3,7 @@
 import { redirect } from 'next/navigation'
 import { getSession } from '../auth/auth-actions'
 import { prisma } from '../prisma'
+import { createNotification } from './notifications'
 
 export async function getTweets() {
     try {
@@ -97,6 +98,24 @@ export async function createReplyTweet(
                 parentId: tweetId,
             },
         })
+        // create the notification
+        const tweetPost = await prisma.tweet.findUnique({
+            where: {
+                id: tweetId,
+            },
+            select: {
+                authorId: true,
+            },
+        })
+
+        if (tweetPost) {
+            await createNotification(
+                'REPLY',
+                tweetPost.authorId,
+                session.user.id,
+                tweetId
+            )
+        }
         return { success: true, tweet }
     } catch (err) {
         console.error('Error creating tweet:', err)
@@ -167,6 +186,25 @@ export async function likeTweet(tweetId: string) {
                     tweetId,
                 },
             })
+
+            // create the notification
+            const tweetPost = await prisma.tweet.findUnique({
+                where: {
+                    id: tweetId,
+                },
+                select: {
+                    authorId: true,
+                },
+            })
+
+            if (tweetPost) {
+                await createNotification(
+                    'LIKE',
+                    tweetPost.authorId,
+                    session.user.id,
+                    tweetId
+                )
+            }
             return { success: true, action: 'liked' }
         }
     } catch (err) {
@@ -207,6 +245,25 @@ export async function RTTweet(tweetId: string) {
                     tweetId,
                 },
             })
+
+            // create the notification
+            const tweetPost = await prisma.tweet.findUnique({
+                where: {
+                    id: tweetId,
+                },
+                select: {
+                    authorId: true,
+                },
+            })
+
+            if (tweetPost) {
+                await createNotification(
+                    'RETWEET',
+                    tweetPost.authorId,
+                    session.user.id,
+                    tweetId
+                )
+            }
             return { success: true, action: 'retweeted' }
         }
     } catch (err) {

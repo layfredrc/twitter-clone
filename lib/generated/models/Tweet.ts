@@ -200,6 +200,7 @@ export type TweetWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"Tweet"> | Date | string
   likes?: Prisma.LikeListRelationFilter
   retweets?: Prisma.RetweetListRelationFilter
+  notifications?: Prisma.NotificationListRelationFilter
   author?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   parent?: Prisma.XOR<Prisma.TweetNullableScalarRelationFilter, Prisma.TweetWhereInput> | null
   replies?: Prisma.TweetListRelationFilter
@@ -215,6 +216,7 @@ export type TweetOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrder
   likes?: Prisma.LikeOrderByRelationAggregateInput
   retweets?: Prisma.RetweetOrderByRelationAggregateInput
+  notifications?: Prisma.NotificationOrderByRelationAggregateInput
   author?: Prisma.UserOrderByWithRelationInput
   parent?: Prisma.TweetOrderByWithRelationInput
   replies?: Prisma.TweetOrderByRelationAggregateInput
@@ -233,6 +235,7 @@ export type TweetWhereUniqueInput = Prisma.AtLeast<{
   updatedAt?: Prisma.DateTimeFilter<"Tweet"> | Date | string
   likes?: Prisma.LikeListRelationFilter
   retweets?: Prisma.RetweetListRelationFilter
+  notifications?: Prisma.NotificationListRelationFilter
   author?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   parent?: Prisma.XOR<Prisma.TweetNullableScalarRelationFilter, Prisma.TweetWhereInput> | null
   replies?: Prisma.TweetListRelationFilter
@@ -272,6 +275,7 @@ export type TweetCreateInput = {
   updatedAt?: Date | string
   likes?: Prisma.LikeCreateNestedManyWithoutTweetInput
   retweets?: Prisma.RetweetCreateNestedManyWithoutTweetInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutTweetInput
   author: Prisma.UserCreateNestedOneWithoutTweetsInput
   parent?: Prisma.TweetCreateNestedOneWithoutRepliesInput
   replies?: Prisma.TweetCreateNestedManyWithoutParentInput
@@ -287,6 +291,7 @@ export type TweetUncheckedCreateInput = {
   updatedAt?: Date | string
   likes?: Prisma.LikeUncheckedCreateNestedManyWithoutTweetInput
   retweets?: Prisma.RetweetUncheckedCreateNestedManyWithoutTweetInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutTweetInput
   replies?: Prisma.TweetUncheckedCreateNestedManyWithoutParentInput
 }
 
@@ -298,6 +303,7 @@ export type TweetUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   likes?: Prisma.LikeUpdateManyWithoutTweetNestedInput
   retweets?: Prisma.RetweetUpdateManyWithoutTweetNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutTweetNestedInput
   author?: Prisma.UserUpdateOneRequiredWithoutTweetsNestedInput
   parent?: Prisma.TweetUpdateOneWithoutRepliesNestedInput
   replies?: Prisma.TweetUpdateManyWithoutParentNestedInput
@@ -313,6 +319,7 @@ export type TweetUncheckedUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   likes?: Prisma.LikeUncheckedUpdateManyWithoutTweetNestedInput
   retweets?: Prisma.RetweetUncheckedUpdateManyWithoutTweetNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutTweetNestedInput
   replies?: Prisma.TweetUncheckedUpdateManyWithoutParentNestedInput
 }
 
@@ -522,6 +529,22 @@ export type TweetUpdateOneRequiredWithoutRetweetsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.TweetUpdateToOneWithWhereWithoutRetweetsInput, Prisma.TweetUpdateWithoutRetweetsInput>, Prisma.TweetUncheckedUpdateWithoutRetweetsInput>
 }
 
+export type TweetCreateNestedOneWithoutNotificationsInput = {
+  create?: Prisma.XOR<Prisma.TweetCreateWithoutNotificationsInput, Prisma.TweetUncheckedCreateWithoutNotificationsInput>
+  connectOrCreate?: Prisma.TweetCreateOrConnectWithoutNotificationsInput
+  connect?: Prisma.TweetWhereUniqueInput
+}
+
+export type TweetUpdateOneWithoutNotificationsNestedInput = {
+  create?: Prisma.XOR<Prisma.TweetCreateWithoutNotificationsInput, Prisma.TweetUncheckedCreateWithoutNotificationsInput>
+  connectOrCreate?: Prisma.TweetCreateOrConnectWithoutNotificationsInput
+  upsert?: Prisma.TweetUpsertWithoutNotificationsInput
+  disconnect?: Prisma.TweetWhereInput | boolean
+  delete?: Prisma.TweetWhereInput | boolean
+  connect?: Prisma.TweetWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.TweetUpdateToOneWithWhereWithoutNotificationsInput, Prisma.TweetUpdateWithoutNotificationsInput>, Prisma.TweetUncheckedUpdateWithoutNotificationsInput>
+}
+
 export type TweetCreateWithoutAuthorInput = {
   id?: string
   content: string
@@ -530,6 +553,7 @@ export type TweetCreateWithoutAuthorInput = {
   updatedAt?: Date | string
   likes?: Prisma.LikeCreateNestedManyWithoutTweetInput
   retweets?: Prisma.RetweetCreateNestedManyWithoutTweetInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutTweetInput
   parent?: Prisma.TweetCreateNestedOneWithoutRepliesInput
   replies?: Prisma.TweetCreateNestedManyWithoutParentInput
 }
@@ -543,6 +567,7 @@ export type TweetUncheckedCreateWithoutAuthorInput = {
   updatedAt?: Date | string
   likes?: Prisma.LikeUncheckedCreateNestedManyWithoutTweetInput
   retweets?: Prisma.RetweetUncheckedCreateNestedManyWithoutTweetInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutTweetInput
   replies?: Prisma.TweetUncheckedCreateNestedManyWithoutParentInput
 }
 
@@ -593,6 +618,7 @@ export type TweetCreateWithoutRepliesInput = {
   updatedAt?: Date | string
   likes?: Prisma.LikeCreateNestedManyWithoutTweetInput
   retweets?: Prisma.RetweetCreateNestedManyWithoutTweetInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutTweetInput
   author: Prisma.UserCreateNestedOneWithoutTweetsInput
   parent?: Prisma.TweetCreateNestedOneWithoutRepliesInput
 }
@@ -607,6 +633,7 @@ export type TweetUncheckedCreateWithoutRepliesInput = {
   updatedAt?: Date | string
   likes?: Prisma.LikeUncheckedCreateNestedManyWithoutTweetInput
   retweets?: Prisma.RetweetUncheckedCreateNestedManyWithoutTweetInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutTweetInput
 }
 
 export type TweetCreateOrConnectWithoutRepliesInput = {
@@ -622,6 +649,7 @@ export type TweetCreateWithoutParentInput = {
   updatedAt?: Date | string
   likes?: Prisma.LikeCreateNestedManyWithoutTweetInput
   retweets?: Prisma.RetweetCreateNestedManyWithoutTweetInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutTweetInput
   author: Prisma.UserCreateNestedOneWithoutTweetsInput
   replies?: Prisma.TweetCreateNestedManyWithoutParentInput
 }
@@ -635,6 +663,7 @@ export type TweetUncheckedCreateWithoutParentInput = {
   updatedAt?: Date | string
   likes?: Prisma.LikeUncheckedCreateNestedManyWithoutTweetInput
   retweets?: Prisma.RetweetUncheckedCreateNestedManyWithoutTweetInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutTweetInput
   replies?: Prisma.TweetUncheckedCreateNestedManyWithoutParentInput
 }
 
@@ -667,6 +696,7 @@ export type TweetUpdateWithoutRepliesInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   likes?: Prisma.LikeUpdateManyWithoutTweetNestedInput
   retweets?: Prisma.RetweetUpdateManyWithoutTweetNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutTweetNestedInput
   author?: Prisma.UserUpdateOneRequiredWithoutTweetsNestedInput
   parent?: Prisma.TweetUpdateOneWithoutRepliesNestedInput
 }
@@ -681,6 +711,7 @@ export type TweetUncheckedUpdateWithoutRepliesInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   likes?: Prisma.LikeUncheckedUpdateManyWithoutTweetNestedInput
   retweets?: Prisma.RetweetUncheckedUpdateManyWithoutTweetNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutTweetNestedInput
 }
 
 export type TweetUpsertWithWhereUniqueWithoutParentInput = {
@@ -706,6 +737,7 @@ export type TweetCreateWithoutLikesInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   retweets?: Prisma.RetweetCreateNestedManyWithoutTweetInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutTweetInput
   author: Prisma.UserCreateNestedOneWithoutTweetsInput
   parent?: Prisma.TweetCreateNestedOneWithoutRepliesInput
   replies?: Prisma.TweetCreateNestedManyWithoutParentInput
@@ -720,6 +752,7 @@ export type TweetUncheckedCreateWithoutLikesInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   retweets?: Prisma.RetweetUncheckedCreateNestedManyWithoutTweetInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutTweetInput
   replies?: Prisma.TweetUncheckedCreateNestedManyWithoutParentInput
 }
 
@@ -746,6 +779,7 @@ export type TweetUpdateWithoutLikesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   retweets?: Prisma.RetweetUpdateManyWithoutTweetNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutTweetNestedInput
   author?: Prisma.UserUpdateOneRequiredWithoutTweetsNestedInput
   parent?: Prisma.TweetUpdateOneWithoutRepliesNestedInput
   replies?: Prisma.TweetUpdateManyWithoutParentNestedInput
@@ -760,6 +794,7 @@ export type TweetUncheckedUpdateWithoutLikesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   retweets?: Prisma.RetweetUncheckedUpdateManyWithoutTweetNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutTweetNestedInput
   replies?: Prisma.TweetUncheckedUpdateManyWithoutParentNestedInput
 }
 
@@ -770,6 +805,7 @@ export type TweetCreateWithoutRetweetsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   likes?: Prisma.LikeCreateNestedManyWithoutTweetInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutTweetInput
   author: Prisma.UserCreateNestedOneWithoutTweetsInput
   parent?: Prisma.TweetCreateNestedOneWithoutRepliesInput
   replies?: Prisma.TweetCreateNestedManyWithoutParentInput
@@ -784,6 +820,7 @@ export type TweetUncheckedCreateWithoutRetweetsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   likes?: Prisma.LikeUncheckedCreateNestedManyWithoutTweetInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutTweetInput
   replies?: Prisma.TweetUncheckedCreateNestedManyWithoutParentInput
 }
 
@@ -810,6 +847,7 @@ export type TweetUpdateWithoutRetweetsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   likes?: Prisma.LikeUpdateManyWithoutTweetNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutTweetNestedInput
   author?: Prisma.UserUpdateOneRequiredWithoutTweetsNestedInput
   parent?: Prisma.TweetUpdateOneWithoutRepliesNestedInput
   replies?: Prisma.TweetUpdateManyWithoutParentNestedInput
@@ -824,6 +862,75 @@ export type TweetUncheckedUpdateWithoutRetweetsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   likes?: Prisma.LikeUncheckedUpdateManyWithoutTweetNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutTweetNestedInput
+  replies?: Prisma.TweetUncheckedUpdateManyWithoutParentNestedInput
+}
+
+export type TweetCreateWithoutNotificationsInput = {
+  id?: string
+  content: string
+  imageUrl?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  likes?: Prisma.LikeCreateNestedManyWithoutTweetInput
+  retweets?: Prisma.RetweetCreateNestedManyWithoutTweetInput
+  author: Prisma.UserCreateNestedOneWithoutTweetsInput
+  parent?: Prisma.TweetCreateNestedOneWithoutRepliesInput
+  replies?: Prisma.TweetCreateNestedManyWithoutParentInput
+}
+
+export type TweetUncheckedCreateWithoutNotificationsInput = {
+  id?: string
+  content: string
+  imageUrl?: string | null
+  authorId: string
+  parentId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  likes?: Prisma.LikeUncheckedCreateNestedManyWithoutTweetInput
+  retweets?: Prisma.RetweetUncheckedCreateNestedManyWithoutTweetInput
+  replies?: Prisma.TweetUncheckedCreateNestedManyWithoutParentInput
+}
+
+export type TweetCreateOrConnectWithoutNotificationsInput = {
+  where: Prisma.TweetWhereUniqueInput
+  create: Prisma.XOR<Prisma.TweetCreateWithoutNotificationsInput, Prisma.TweetUncheckedCreateWithoutNotificationsInput>
+}
+
+export type TweetUpsertWithoutNotificationsInput = {
+  update: Prisma.XOR<Prisma.TweetUpdateWithoutNotificationsInput, Prisma.TweetUncheckedUpdateWithoutNotificationsInput>
+  create: Prisma.XOR<Prisma.TweetCreateWithoutNotificationsInput, Prisma.TweetUncheckedCreateWithoutNotificationsInput>
+  where?: Prisma.TweetWhereInput
+}
+
+export type TweetUpdateToOneWithWhereWithoutNotificationsInput = {
+  where?: Prisma.TweetWhereInput
+  data: Prisma.XOR<Prisma.TweetUpdateWithoutNotificationsInput, Prisma.TweetUncheckedUpdateWithoutNotificationsInput>
+}
+
+export type TweetUpdateWithoutNotificationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  content?: Prisma.StringFieldUpdateOperationsInput | string
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  likes?: Prisma.LikeUpdateManyWithoutTweetNestedInput
+  retweets?: Prisma.RetweetUpdateManyWithoutTweetNestedInput
+  author?: Prisma.UserUpdateOneRequiredWithoutTweetsNestedInput
+  parent?: Prisma.TweetUpdateOneWithoutRepliesNestedInput
+  replies?: Prisma.TweetUpdateManyWithoutParentNestedInput
+}
+
+export type TweetUncheckedUpdateWithoutNotificationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  content?: Prisma.StringFieldUpdateOperationsInput | string
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  authorId?: Prisma.StringFieldUpdateOperationsInput | string
+  parentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  likes?: Prisma.LikeUncheckedUpdateManyWithoutTweetNestedInput
+  retweets?: Prisma.RetweetUncheckedUpdateManyWithoutTweetNestedInput
   replies?: Prisma.TweetUncheckedUpdateManyWithoutParentNestedInput
 }
 
@@ -844,6 +951,7 @@ export type TweetUpdateWithoutAuthorInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   likes?: Prisma.LikeUpdateManyWithoutTweetNestedInput
   retweets?: Prisma.RetweetUpdateManyWithoutTweetNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutTweetNestedInput
   parent?: Prisma.TweetUpdateOneWithoutRepliesNestedInput
   replies?: Prisma.TweetUpdateManyWithoutParentNestedInput
 }
@@ -857,6 +965,7 @@ export type TweetUncheckedUpdateWithoutAuthorInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   likes?: Prisma.LikeUncheckedUpdateManyWithoutTweetNestedInput
   retweets?: Prisma.RetweetUncheckedUpdateManyWithoutTweetNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutTweetNestedInput
   replies?: Prisma.TweetUncheckedUpdateManyWithoutParentNestedInput
 }
 
@@ -886,6 +995,7 @@ export type TweetUpdateWithoutParentInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   likes?: Prisma.LikeUpdateManyWithoutTweetNestedInput
   retweets?: Prisma.RetweetUpdateManyWithoutTweetNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutTweetNestedInput
   author?: Prisma.UserUpdateOneRequiredWithoutTweetsNestedInput
   replies?: Prisma.TweetUpdateManyWithoutParentNestedInput
 }
@@ -899,6 +1009,7 @@ export type TweetUncheckedUpdateWithoutParentInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   likes?: Prisma.LikeUncheckedUpdateManyWithoutTweetNestedInput
   retweets?: Prisma.RetweetUncheckedUpdateManyWithoutTweetNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutTweetNestedInput
   replies?: Prisma.TweetUncheckedUpdateManyWithoutParentNestedInput
 }
 
@@ -919,12 +1030,14 @@ export type TweetUncheckedUpdateManyWithoutParentInput = {
 export type TweetCountOutputType = {
   likes: number
   retweets: number
+  notifications: number
   replies: number
 }
 
 export type TweetCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   likes?: boolean | TweetCountOutputTypeCountLikesArgs
   retweets?: boolean | TweetCountOutputTypeCountRetweetsArgs
+  notifications?: boolean | TweetCountOutputTypeCountNotificationsArgs
   replies?: boolean | TweetCountOutputTypeCountRepliesArgs
 }
 
@@ -955,6 +1068,13 @@ export type TweetCountOutputTypeCountRetweetsArgs<ExtArgs extends runtime.Types.
 /**
  * TweetCountOutputType without action
  */
+export type TweetCountOutputTypeCountNotificationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.NotificationWhereInput
+}
+
+/**
+ * TweetCountOutputType without action
+ */
 export type TweetCountOutputTypeCountRepliesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.TweetWhereInput
 }
@@ -970,6 +1090,7 @@ export type TweetSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   updatedAt?: boolean
   likes?: boolean | Prisma.Tweet$likesArgs<ExtArgs>
   retweets?: boolean | Prisma.Tweet$retweetsArgs<ExtArgs>
+  notifications?: boolean | Prisma.Tweet$notificationsArgs<ExtArgs>
   author?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   parent?: boolean | Prisma.Tweet$parentArgs<ExtArgs>
   replies?: boolean | Prisma.Tweet$repliesArgs<ExtArgs>
@@ -1014,6 +1135,7 @@ export type TweetOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = ru
 export type TweetInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   likes?: boolean | Prisma.Tweet$likesArgs<ExtArgs>
   retweets?: boolean | Prisma.Tweet$retweetsArgs<ExtArgs>
+  notifications?: boolean | Prisma.Tweet$notificationsArgs<ExtArgs>
   author?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   parent?: boolean | Prisma.Tweet$parentArgs<ExtArgs>
   replies?: boolean | Prisma.Tweet$repliesArgs<ExtArgs>
@@ -1033,6 +1155,7 @@ export type $TweetPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   objects: {
     likes: Prisma.$LikePayload<ExtArgs>[]
     retweets: Prisma.$RetweetPayload<ExtArgs>[]
+    notifications: Prisma.$NotificationPayload<ExtArgs>[]
     author: Prisma.$UserPayload<ExtArgs>
     parent: Prisma.$TweetPayload<ExtArgs> | null
     replies: Prisma.$TweetPayload<ExtArgs>[]
@@ -1441,6 +1564,7 @@ export interface Prisma__TweetClient<T, Null = never, ExtArgs extends runtime.Ty
   readonly [Symbol.toStringTag]: "PrismaPromise"
   likes<T extends Prisma.Tweet$likesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tweet$likesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LikePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   retweets<T extends Prisma.Tweet$retweetsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tweet$retweetsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RetweetPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  notifications<T extends Prisma.Tweet$notificationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tweet$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   author<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   parent<T extends Prisma.Tweet$parentArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tweet$parentArgs<ExtArgs>>): Prisma.Prisma__TweetClient<runtime.Types.Result.GetResult<Prisma.$TweetPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   replies<T extends Prisma.Tweet$repliesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tweet$repliesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TweetPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -1921,6 +2045,30 @@ export type Tweet$retweetsArgs<ExtArgs extends runtime.Types.Extensions.Internal
   take?: number
   skip?: number
   distinct?: Prisma.RetweetScalarFieldEnum | Prisma.RetweetScalarFieldEnum[]
+}
+
+/**
+ * Tweet.notifications
+ */
+export type Tweet$notificationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Notification
+   */
+  select?: Prisma.NotificationSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Notification
+   */
+  omit?: Prisma.NotificationOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.NotificationInclude<ExtArgs> | null
+  where?: Prisma.NotificationWhereInput
+  orderBy?: Prisma.NotificationOrderByWithRelationInput | Prisma.NotificationOrderByWithRelationInput[]
+  cursor?: Prisma.NotificationWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.NotificationScalarFieldEnum | Prisma.NotificationScalarFieldEnum[]
 }
 
 /**

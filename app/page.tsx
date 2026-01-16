@@ -4,11 +4,16 @@ import TweetComposer from '@/components/tweet/tweet-composer'
 import { Button } from '@/components/ui/button'
 import { getTweets } from '@/lib/actions/tweets'
 import { getSession, signOut } from '@/lib/auth/auth-actions'
+import { redirect } from 'next/navigation'
 
 export default async function Home() {
     const tweetsResult = await getTweets()
     const tweets = tweetsResult.success ? tweetsResult.tweets || [] : []
     const session = await getSession()
+    console.log({ session })
+    if (!session?.user) {
+        redirect('/sign-in')
+    }
     return (
         <MainLayout>
             <div className='border-b border-border'>
