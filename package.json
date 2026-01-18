@@ -6,6 +6,7 @@
         "dev": "next dev",
         "build": "next build",
         "start": "next start",
+        "postinstall": "prisma generate",
         "lint": "eslint",
         "db:seed": "dotenv -e .env -- tsx prisma/seed.ts",
         "db:seed-tweets": "dotenv -e .env -- tsx prisma/seed-tweets.ts"
