@@ -3,7 +3,7 @@ import ProfileContent from '@/components/profile/profile-content'
 import ProfileHeader from '@/components/profile/profile-header'
 import {
     checkFollowStatus,
-    getUserProfile,
+    getCachedUserProfile,
     getUserTweets,
 } from '@/lib/actions/profile'
 import { getSession } from '@/lib/auth/auth-actions'
@@ -21,7 +21,7 @@ export default async function ProfilePage({
     const username = decodeURIComponent(resolvedParams.username)
 
     const [profileResult, tweetsResult] = await Promise.all([
-        getUserProfile(username).then(async (result) => {
+        getCachedUserProfile(username).then(async (result) => {
             if (result.success && result.user) {
                 const followStatus = await checkFollowStatus(result.user.id)
                 return { ...result, isFollowing: followStatus }

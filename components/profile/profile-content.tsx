@@ -76,6 +76,7 @@ export default function ProfileContent({
                     setTweets([])
             }
         } catch (err) {
+            console.error(err)
             toast.error('Error loading tweets.')
             setTweets([])
         } finally {

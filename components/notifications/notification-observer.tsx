@@ -13,6 +13,7 @@ export default function NotificationObserver() {
                 await markAllNotificationsAsRead()
                 markAllAsRead()
             } catch (err) {
+                console.error(err)
                 toast.error('Failed to mark notifications as read')
             }
         }

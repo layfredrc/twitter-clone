@@ -38,6 +38,7 @@ export default function SignIn() {
         try {
             await signInWithEmail(formData.email, formData.password)
         } catch (err) {
+            console.error(err)
             setError('An error occured. Please try again.')
         } finally {
             setIsLoading(false)
@@ -50,6 +51,7 @@ export default function SignIn() {
         try {
             await signInWithGoogle()
         } catch (err) {
+            console.error(err)
             setError('An error occured. Please try again')
         } finally {
             setIsLoading(false)

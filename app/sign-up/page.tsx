@@ -55,6 +55,7 @@ export default function SignUp() {
                 formData.username
             )
         } catch (err) {
+            console.error(err)
             setError('An error occured. Please try again.')
         } finally {
             setIsLoading(false)
@@ -73,6 +74,7 @@ export default function SignUp() {
                 router.push('/')
             }
         } catch (err) {
+            console.error(err)
             setError('An error occured. Please try again')
         } finally {
             setIsLoading(false)

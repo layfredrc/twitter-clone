@@ -37,6 +37,7 @@ model User {
   notificationsActed Notification[] @relation("NotificationActor")
   
   @@unique([email])
+  @@index([username])
   @@map("user")
 }
 
@@ -102,7 +103,12 @@ model Tweet {
   author User @relation(fields: [authorId], references: [id], onDelete: Cascade)
   parent Tweet? @relation("TweetReplies", fields: [parentId], references: [id], onDelete: Cascade)
   replies Tweet[] @relation("TweetReplies")
- 
+  
+  @@index([createdAt])  // getTweets 
+  @@index ([authorId])  //getUserTweets()
+  @@index([parentId])   // replies
+  @@index([authorId, createdAt])
+
   @@map("tweet")
 }
 
@@ -116,6 +122,9 @@ model Like {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId, tweetId])
+  @@index([tweetId])
+  @@index([userId])
+  @@index([userId, createdAt])
   @@map("likes")
 }
 model Retweet {
@@ -128,6 +137,9 @@ model Retweet {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId, tweetId])
+  @@index([tweetId])
+  @@index([userId])
+  @@index([userId, createdAt])
   @@map("retweets")
 }
 
@@ -141,6 +153,8 @@ model Follow {
   follower User @relation("UserFollowers",fields: [followerId], references: [id], onDelete: Cascade)
 
   @@unique([followingId, followerId])
+  @@index([followingId])
+  @@index([followerId])
   @@map("follows")
 }
 
@@ -165,4 +179,10 @@ model Notification {
   recipient User @relation("NotificationRecipient",fields: [recipientId], references: [id], onDelete: Cascade)
   actor User @relation("NotificationActor",fields: [actorId], references: [id], onDelete: Cascade)
   tweet Tweet? @relation(fields: [tweetId], references: [id], onDelete: Cascade)
+
+
+  @@index([recipientId])
+  @@index([recipientId, read])
+  @@index([recipientId, createdAt])
+  @@map("notifications")
 }

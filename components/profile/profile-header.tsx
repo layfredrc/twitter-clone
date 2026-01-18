@@ -65,6 +65,7 @@ export default function ProfileHeader({
                 router.refresh()
             }
         } catch (err) {
+            console.error(err)
             toast.error('Error following account.')
         }
     }

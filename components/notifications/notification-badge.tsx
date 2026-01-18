@@ -22,7 +22,7 @@ export function NotificationBadge() {
         }
 
         fetchUnreadCount()
-    }, [])
+    }, [updateUnreadCount])
     return (
         <div className='relative'>
             <Bell className='h-5 w-5' />

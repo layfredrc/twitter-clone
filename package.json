@@ -7,7 +7,8 @@
         "build": "next build",
         "start": "next start",
         "lint": "eslint",
-        "db:seed": "dotenv -e .env -- tsx prisma/seed.ts"
+        "db:seed": "dotenv -e .env -- tsx prisma/seed.ts",
+        "db:seed-tweets": "dotenv -e .env -- tsx prisma/seed-tweets.ts"
     },
     "dependencies": {
         "@prisma/client": "^6.19.1",

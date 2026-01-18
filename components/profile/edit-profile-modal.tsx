@@ -111,6 +111,7 @@ export default function EditProfileModal({
                 toast.error(result.error || 'Failed to update profile')
             }
         } catch (err) {
+            console.error(err)
             toast.error('Failed to save changes.')
         } finally {
             setIsLoading(false)
@@ -131,7 +132,7 @@ export default function EditProfileModal({
                     onSubmit={handleSubmit}
                 >
                     <div className='relative'>
-                        <div className='h-32 bg-gradient-to-r from-blue-400 to-purple-500 rounded-lg overflow-hidden relative'>
+                        <div className='h-32 bg-linear-to-r from-blue-400 to-purple-500 rounded-lg overflow-hidden relative'>
                             {banner && (
                                 <Image
                                     src={banner}
@@ -249,7 +250,12 @@ export default function EditProfileModal({
                         >
                             Cancel
                         </Button>
-                        <Button type='submit'>Save Changes</Button>
+                        <Button
+                            disabled={isLoading}
+                            type='submit'
+                        >
+                            Save Changes
+                        </Button>
                     </div>
                 </form>
             </DialogContent>

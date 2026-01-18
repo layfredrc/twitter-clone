@@ -1,19 +1,35 @@
 import MainLayout from '@/components/main-layout'
-import Tweet from '@/components/tweet'
 import TweetComposer from '@/components/tweet/tweet-composer'
-import { Button } from '@/components/ui/button'
-import { getTweets } from '@/lib/actions/tweets'
-import { getSession, signOut } from '@/lib/auth/auth-actions'
+import TweetFeedSuspense from '@/components/tweet/tweet-feed-suspense'
+import { getSession } from '@/lib/auth/auth-actions'
 import { redirect } from 'next/navigation'
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+    title: 'Home',
+    description:
+        'Stay updated with the latest tweets and conversations. Share your thoughts and connect with others on Twitter.',
+    openGraph: {
+        title: 'Home | Twitter',
+        description:
+            'Stay updated with the latest tweets and conversations. Share your thoughts and connect with others on Twitter.',
+        type: 'website',
+    },
+    twitter: {
+        card: 'summary',
+        title: 'Home | Twitter',
+        description:
+            'Stay updated with the latest tweets and conversations. Share your thoughts and connect with others on Twitter.',
+    },
+}
 
 export default async function Home() {
-    const tweetsResult = await getTweets()
-    const tweets = tweetsResult.success ? tweetsResult.tweets || [] : []
     const session = await getSession()
-    console.log({ session })
+
     if (!session?.user) {
         redirect('/sign-in')
     }
+
     return (
         <MainLayout>
             <div className='border-b border-border'>
@@ -22,25 +38,11 @@ export default async function Home() {
                 </div>
             </div>
 
-            {/* Tweet Composer  */}
+            {/* Tweet Composer */}
             <TweetComposer user={session?.user} />
 
-            {/* Tweet Feed  */}
-            <div className='divide-y divide-border'>
-                {tweets.length > 0 ? (
-                    tweets.map((tweet, key) => (
-                        <Tweet
-                            key={key}
-                            tweet={tweet}
-                            currentUserId={session?.user.id}
-                        />
-                    ))
-                ) : (
-                    <div className='p-8 text-center'>
-                        <p>No tweets yet, Be the first to tweet !</p>
-                    </div>
-                )}
-            </div>
+            {/* Tweet Feed */}
+            <TweetFeedSuspense currentUserId={session.user.id} />
         </MainLayout>
     )
 }

@@ -3,60 +3,64 @@
 import { redirect } from 'next/navigation'
 import { getSession } from '../auth/auth-actions'
 import { prisma } from '../prisma'
-import { unstable_cache } from 'next/cache'
 import { createNotification } from './notifications'
+import { unstable_cache, updateTag } from 'next/cache'
 
-export async function getUserProfile(username: string) {
-    try {
-        const user = await prisma.user.findUnique({
-            where: {
-                username: username,
-            },
-            include: {
-                _count: {
-                    select: {
-                        tweets: true,
-                        retweets: true,
-                        likes: true,
-                        followers: true,
-                        following: true,
+export const getCachedUserProfile = unstable_cache(
+    async (username: string) => {
+        try {
+            const user = await prisma.user.findUnique({
+                where: {
+                    username: username,
+                },
+                include: {
+                    _count: {
+                        select: {
+                            tweets: true,
+                            likes: true,
+                            retweets: true,
+                            followers: true,
+                            following: true,
+                        },
                     },
                 },
-            },
-        })
+            })
 
-        if (!user) {
-            return { success: false, error: 'User not found' }
-        }
+            if (!user) {
+                return { success: false, error: 'User not found' }
+            }
 
-        const [postsCount, repliesCount] = await Promise.all([
-            prisma.tweet.count({
-                where: {
-                    authorId: user?.id,
-                    parentId: null,
+            const [postsCount, repliesCount] = await Promise.all([
+                prisma.tweet.count({
+                    where: {
+                        authorId: user.id,
+                        parentId: null,
+                    },
+                }),
+                prisma.tweet.count({
+                    where: {
+                        authorId: user.id,
+                        parentId: { not: null },
+                    },
+                }),
+            ])
+
+            return {
+                success: true,
+                user: {
+                    ...user,
+                    postsCount,
+                    repliesCount,
                 },
-            }),
-            prisma.tweet.count({
-                where: {
-                    authorId: user?.id,
-                    parentId: { not: null },
-                },
-            }),
-        ])
-
-        return {
-            success: true,
-            user: {
-                ...user,
-                postsCount,
-                repliesCount,
-            },
+            }
+        } catch (error) {
+            console.error('Error fetching user profile:', error)
+            return { success: false, error: 'Failed to fetch user profile' }
         }
-    } catch (error) {
-        console.error('Error fetching user profile', error)
-        return { success: false, error: 'Failed to fetch user profile' }
-    }
-}
+    },
+    ['user-profile'],
+    { revalidate: 1800, tags: ['user-profile'] }
+)
 
 export async function uploadImageToCloudinary(file: File): Promise<string> {
     const formData = new FormData()
@@ -123,104 +127,125 @@ export async function updateUserProfile(data: {
     }
 }
 
-export async function followUser(userId: string) {
+export async function followUser(id: string) {
     const session = await getSession()
     if (!session?.user) {
         redirect('/sign-in')
     }
 
-    if (session.user.id === userId) {
-        return { success: false, error: 'Cannnot follow yourself' }
+    if (session.user.id === id) {
+        return { success: false, error: 'Cannot follow yourself' }
     }
 
     try {
-        // check to see if user already followed
         const existingFollow = await prisma.follow.findUnique({
             where: {
                 followingId_followerId: {
                     followerId: session.user.id,
-                    followingId: userId,
+                    followingId: id,
                 },
             },
         })
 
         if (existingFollow) {
-            // unfollow
             await prisma.follow.delete({
                 where: {
                     id: existingFollow.id,
                 },
             })
+            updateTag('user-profile')
+            updateTag('follow-status')
             return { success: true, action: 'unfollowed' }
         } else {
-            // follow
             await prisma.follow.create({
                 data: {
-                    followerId: userId,
-                    followingId: session.user.id,
+                    followerId: session.user.id,
+                    followingId: id,
                 },
             })
 
-            await createNotification('FOLLOW', userId, session.user.id)
-            return { success: true, action: 'followed' }
+            updateTag('user-profile')
+            updateTag('follow-status')
+            await createNotification('FOLLOW', id, session.user.id)
         }
+
+        return { success: true, action: 'followed' }
     } catch (err) {
         console.error('Error following user:', err)
-        return { success: false, error: 'Failed follow user' }
+        return { success: false, error: 'Failed to follow user' }
     }
 }
 
-export async function checkFollowStatus(targetUserid: string) {
+export const getCachedFollowStatus = unstable_cache(
+    async (targetUserId: string, currentUserId: string) => {
+        try {
+            const follow = await prisma.follow.findUnique({
+                where: {
+                    followingId_followerId: {
+                        followerId: currentUserId,
+                        followingId: targetUserId,
+                    },
+                },
+            })
+
+            return { success: true, isFollowing: !!follow }
+        } catch (err) {
+            console.error(err)
+            return { success: false, isFollowing: false }
+        }
+    },
+    ['follow-status'],
+    { revalidate: 300, tags: ['follow-status'] }
+)
+
+export async function checkFollowStatus(targetUserId: string) {
     const session = await getSession()
     if (!session?.user) {
         redirect('/sign-in')
     }
 
-    try {
-        const follow = await prisma.follow.findUnique({
-            where: {
-                followingId_followerId: {
-                    followerId: session.user.id,
-                    followingId: targetUserid,
-                },
-            },
-        })
-        return { success: true, isFollowing: !!follow }
-    } catch (err) {
-        return { success: false, isFollowing: false }
-    }
+    return getCachedFollowStatus(targetUserId, session.user.id)
 }
 
-export async function getUserTweets(username: string) {
-    try {
-        const tweets = await prisma.tweet.findMany({
-            where: {
-                author: {
-                    username,
-                },
-                parentId: null,
-            },
-            include: {
-                author: {
-                    select: {
-                        id: true,
-                        name: true,
-                        username: true,
-                        avatar: true,
+export const getCachedUserTweets = unstable_cache(
+    async (username: string) => {
+        try {
+            const tweets = await prisma.tweet.findMany({
+                where: {
+                    author: {
+                        username,
                     },
+                    parentId: null,
                 },
-                likes: true,
-                retweets: true,
-            },
-            orderBy: {
-                createdAt: 'desc',
-            },
-        })
-        return { success: true, tweets }
-    } catch (err) {
-        console.error('Error fetching tweets:', err)
-        return { sucess: false, error: 'Failed to fetch tweets' }
-    }
+                include: {
+                    author: {
+                        select: {
+                            id: true,
+                            name: true,
+                            username: true,
+                            avatar: true,
+                        },
+                    },
+                    likes: true,
+                    retweets: true,
+                },
+                orderBy: {
+                    createdAt: 'desc',
+                },
+            })
+
+            return { success: true, tweets }
+        } catch (err) {
+            console.error('Error fetching tweets:', err)
+            return { success: false, error: 'Failed to fetch tweets' }
+        }
+    },
+    ['user-tweets'],
+    { revalidate: 300, tags: ['user-tweets'] }
+)
+
+export async function getUserTweets(username: string) {
+    return getCachedUserTweets(username)
 }
 
 export const getCachedUserReplies = unstable_cache(
